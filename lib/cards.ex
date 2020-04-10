@@ -3,27 +3,39 @@ defmodule Cards do
     Provides methods for creating and handling a deck of cards
   """
 
-  def values() do
-    ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"] 
-  end
-
-  def suits() do
-    ["Spades", "Clubs", "Hearts", "Diamonds"]
-  end
+  @values ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"]
+  @suits ["Spades", "Clubs", "Hearts", "Diamonds"]
 
   @doc """
-    Returns a list of strings representing a deck of playing cards.
+  Returns an ordered deck of cards
+
+  ## Examples
+
+      iex> Cards.create_deck()
+      ["Ace of Spades", "Two of Spades", "Three of Spades", "Four of Spades", "Five of Spades",
+       "Six of Spades", "Seven of Spades", "Eight of Spades", "Nine of Spades", "Ten of Spades", 
+       "Jack of Spades", "Queen of Spades", "King of Spades", "Ace of Clubs", "Two of Clubs",
+       "Three of Clubs", "Four of Clubs", "Five of Clubs", "Six of Clubs", "Seven of Clubs", 
+       "Eight of Clubs", "Nine of Clubs", "Ten of Clubs", "Jack of Clubs", "Queen of Clubs", 
+       "King of Clubs", "Ace of Hearts", "Two of Hearts", "Three of Hearts", "Four of Hearts",
+       "Five of Hearts", "Six of Hearts", "Seven of Hearts", "Eight of Hearts", "Nine of Hearts", 
+       "Ten of Hearts", "Jack of Hearts", "Queen of Hearts", "King of Hearts", "Ace of Diamonds", 
+       "Two of Diamonds", "Three of Diamonds", "Four of Diamonds", "Five of Diamonds", 
+       "Six of Diamonds", "Seven of Diamonds", "Eight of Diamonds", "Nine of Diamonds", 
+       "Ten of Diamonds", "Jack of Diamonds", "Queen of Diamonds", "King of Diamonds"]
   """
-  def create_deck() do
-    for suit <- suits(), value <- values() do
+  def create_deck do
+    for suit <- @suits, value <- @values do
       "#{value} of #{suit}"
     end
   end
 
   @doc """
-    Returns a shuffled copy of the deck provided.
+  Returns a shuffled `deck`
+
   ## Examples
-      iex> deck = Cards.create_deck
+
+      iex> deck = Cards.create_deck()
       iex> shuffled_deck = Cards.shuffle(deck)
       iex> deck == shuffled_deck
       false
@@ -33,26 +45,28 @@ defmodule Cards do
   end
 
   @doc """
-    Determines whether a deck contains a given card
+  Returns whether the `deck` contains the `card`
+
   ## Examples
-      iex> deck = Cards.create_deck
-      iex> Cards.contains?(deck, "Ace of Spades")
+
+      iex> deck = Cards.create_deck()
+      iex> card = "Ace of Spades"
+      iex> Cards.contains?(deck, card)
       true
   """
-  def contains?(deck, card) do
+  def contains?(deck, card) do 
     Enum.member?(deck, card)
   end
 
   @doc """
-    Divides a deck into a hand and the remainder of the deck.
-    The `hand_size` argument indicates how many cards to place into the hand.
+  Returns a from the `deck` a `hand_size` of cards
+
   ## Examples
-      iex> deck = Cards.create_deck
-      iex> {hand, deck} = Cards.deal(deck, 1)
+      iex> deck = Cards.create_deck()
+      iex> hand_size = 5
+      iex> {hand, remainder} = Cards.deal(deck, hand_size)
       iex> hand
-      ["Ace of Spades"]
-      iex> Cards.contains?(deck, "Ace of Spades")
-      false
+      ["Ace of Spades", "Two of Spades", "Three of Spades", "Four of Spades", "Five of Spades"]
   """
   def deal(deck, hand_size) do
     Enum.split(deck, hand_size)
